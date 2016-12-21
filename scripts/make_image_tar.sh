@@ -87,11 +87,18 @@ cd ${root_dir}
 # pacman setting
 ${chpacman} && sed -i -e "/^#Server.*\.${repos_country}/s/^#//" etc/pacman.d/mirrorlist
 
-# create archive
-tar --no-same-owner -Jcf ${archive_path} .
+# chmod
+chmod 1777 tmp
 
-exit
+# remove file
+rm -f README
+
+# create archive
+tar --owner=root --group=root -Jcf ${archive_path} .
+
+# remove work files
+cd ${workdir}
+chmod 777 -R ${root_dir}
+rm -rf ${root_dir} ${dl_file} ${sig_file}
 
 cd ${output_dir}
-chmod 777 -R ${root_dir}
-rm -rf ${archive_dir} ${dl_file} ${sig_file}
